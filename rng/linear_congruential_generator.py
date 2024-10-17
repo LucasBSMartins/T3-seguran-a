@@ -13,8 +13,6 @@ def generate_one_random_number(bit_size):
 
     # Gera um valor inicial aleatório
     x = random.randint(0, 1001000000100000010000001000000100000010000000000)
-
-    start_time = time.perf_counter()  # Inicia a contagem do tempo para cada número
     
     # Geração LCG
     x = ((a * x) + b) % n
@@ -27,7 +25,10 @@ def generate_random_numbers(bit_size, num_trials=50):
     # Constantes para LCG
     a = 918273645210143527345039683
     b = 156437638191923801103948576036158914597819658169851968
-    n = 8172194457766172223613642383538949849684651981651681
+    m = 8172194457766172223613642383538949849684651981651681
+    
+    # Gera um valor inicial aleatório
+    x = random.randint(0, 1001000000100000010000001000000100000010000000000)
 
     # Calcula os valores mínimo e máximo para o tamanho de bits dado
     min_value = 1 << (bit_size - 1)  # 2^(bit_size - 1)
@@ -35,15 +36,13 @@ def generate_random_numbers(bit_size, num_trials=50):
 
     numeros_gerados = []
     total_time = 0
-
+    
     for _ in range(num_trials):
-        # Gera um valor inicial aleatório
-        x = random.randint(0, 1001000000100000010000001000000100000010000000000)
-
+       
         start_time = time.perf_counter()  # Inicia a contagem do tempo para cada número
         
         # Geração LCG
-        x = ((a * x) + b) % n
+        x = ((a * x) + b) % m
         random_number = min_value + (x % (max_value - min_value + 1))
         numeros_gerados.append(random_number)
         
@@ -77,8 +76,8 @@ def main():
 
     # Exibe os resultados
     print("\nAlgoritmo: Gerador Congruencial Linear (LCG)")
-    print(f"{'Tamanho do Número (bits)':<30} {'Tempo médio para Gerar cada número (ms)':<40}")
-    print("=" * 75)
+    print(f"{'Tamanho do Número (bits)':<30} {'Tempo médio para Gerar (ms)':<40}")
+    print("=" * 55)
     for bit_size, avg_time in resultados:
         print(f"{bit_size:<30} {avg_time:<40.6f}")
 

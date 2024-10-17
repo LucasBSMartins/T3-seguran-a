@@ -2,12 +2,11 @@ import random
 
 def miller_rabin(n, k=5):
     # Retorna True se n é provável que seja primo, e False se é composto
-    if n <= 1:
+    if n==0 or n==1 or n==4 or n==6 or n==8 or n==9:
         return False
-    if n <= 3:
-        return True
-    if n % 2 == 0:
-        return False
+        
+    if n==2 or n==3 or n==5 or n==7:
+        return True 
 
     # Escreve n-1 como 2^r * d
     r, d = 0, n - 1

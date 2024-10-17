@@ -13,6 +13,12 @@ def gcd(a, b):
         a, b = b, a % b
     return a
 
+def generate_coprime_seed(M):
+    while True:
+        seed = random.randint(2, M-1)  # Escolhe uma semente aleatória
+        if gcd(seed, M) == 1:     # Verifica se seed é co-primo de M
+            return seed
+
 def next_usable_prime(x):
     #Encontra o próximo primo que é congruente a 3 módulo 4
     p = sympy.nextprime(x)
@@ -22,16 +28,14 @@ def next_usable_prime(x):
 
 def generate_one_random(bit_size):
     
-    # Gera p, q e M para o tamanho de bits atual
     seed = random.randint(11000000000000000000000000000000000000000000000, 10000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
     seed2 = random.randint(11000000000000000000000000000000000000000000000, 10000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
-    x = seed
-    y = seed2
 
-    p = next_usable_prime(x)
-    q = next_usable_prime(y)
+    p = next_usable_prime(seed)
+    q = next_usable_prime(seed2)
     M = p * q
-
+    x = generate_coprime_seed(M)
+    
     # Gera a string de bits
     bit_output = ""
     for _ in range(bit_size):
@@ -51,16 +55,12 @@ def generate_blum_blum_shub_numbers(bit_size, num_trials):
     for _ in range(num_trials):
         # Gera p, q e M para o tamanho de bits atual
         seed = random.randint(11000000000000000000000000000000000000000000000, 10000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
-        
-        seed = random.randint(11000000000000000000000000000000000000000000000, 10000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
         seed2 = random.randint(11000000000000000000000000000000000000000000000, 10000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000)
-        x = seed
-        y = seed2
 
-
-        p = next_usable_prime(x)
-        q = next_usable_prime(y)
+        p = next_usable_prime(seed)
+        q = next_usable_prime(seed2)
         M = p * q
+        x = generate_coprime_seed(M)
 
         # Inicia o temporizador com maior precisão
         start_time = time.perf_counter()
